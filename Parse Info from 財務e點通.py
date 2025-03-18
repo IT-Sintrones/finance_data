@@ -1,6 +1,7 @@
 import requests
 import json
 import pandas as pd
+import os
 
 url = "https://mopsfin.twse.com.tw/compare/data"
 
@@ -110,6 +111,14 @@ for comp in Compare:
         # Concatenate all DataFrames
     final_df = pd.concat(df_list, ignore_index=True)
 
-# Save to CSV
-file_name = "finance_data/all_comparison_data.csv"
+
+# Ensure the 'finance_data' directory exists
+directory = "finance_data"
+if not os.path.exists(directory):
+    os.makedirs(directory)
+
+# Define the file path to store the CSV
+file_name = os.path.join(directory, "all_comparison_data.csv")
+
+# Save the DataFrame as a CSV
 final_df.to_csv(file_name, index=False)
