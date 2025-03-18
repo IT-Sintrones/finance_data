@@ -15,13 +15,13 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
-          python-version: "3.12.6"
+          python-version: "3.12"
 
       - name: Install Dependencies
-        run: pip install requests pandas json
+        run: pip install requests pandas
 
       - name: Run Data Fetching Script
-        run: python Parse Info from 財務e點通.py  # script name
+        run: python "Parse Info from 財務e點通.py"  # script name
 
       - name: Commit and Push Changes
         run: |
