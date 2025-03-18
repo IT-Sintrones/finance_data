@@ -111,7 +111,5 @@ for comp in Compare:
     final_df = pd.concat(df_list, ignore_index=True)
 
 # Save to CSV
-file_name = "c:/Users/S0197/Documents/GitHub/財務e點通data/all_comparison_data.csv"
+file_name = "finance_data/all_comparison_data.csv"
 final_df.to_csv(file_name, index=False)
-
-print(f"Saved {file_name}")
