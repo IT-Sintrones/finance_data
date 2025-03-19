@@ -29,4 +29,4 @@ jobs:
           git config --global user.email "action@github.com"
           git add .
           git commit -m "Auto-update financial data"
-          git push https://x-access-token:${{ secrets.GH_TOKEN }}@github.com/JessicaWeng-Sintrones/finance_data.git main
+          git push
