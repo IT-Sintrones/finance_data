@@ -2,22 +2,25 @@ import requests
 import json
 import pandas as pd
 import os
-import time
 
-url = "https://mopsfin.twse.com.tw"
-
+url = "https://mopsfin.twse.com.tw/compare/data"
 
 
 Compare = ["Revenue", "GrossProfit"]
-#            "OperatingIncome", "NetProfit", "EPS", "CommonStock", "NAV", "OperatingCashflow", "InvestingCashflow", "FinancingCashflow", "ROA",
-#            "GrossMargin", "OperatingMargin", "NetIncomeMargin", "ROE", "DebtRatio", "LongTermLiabilitiesRatio", "CurrentRatio", "QuickRatio", "InterestCoverage", 
-#            "AccountsReceivableTurnoverDay", "AccountsReceivableTurnover", "InventoryTurnover", "InventoryTurnoverDay", "TotalAssetTurnover",
-#            "RevenueYOY", "GrossProfitYOY", "OperatingIncomeYOY", "NetProfitYOY", "EPSYOY", 
-#            "OperatingCashflowToCurrentLiability", "OperatingCashflowToLiability", "OperatingCashflowToNetProfit"]
-Company = ["6680 鑫創電子 (上櫃電腦及週邊設備業)", "8050 廣積 (上櫃電腦及週邊設備業)"]
-#"6922 宸曜 (上櫃電腦及週邊設備業)", "3594 磐儀 (上櫃電腦及週邊設備業)", "2397 友通 (上市電腦及週邊設備業)",
-#           "8234 新漢 (上櫃電腦及週邊設備業)",  "2395 研華 (上市電腦及週邊設備業)", "6166 凌華 (上市電腦及週邊設備業)", "3088 艾訊 (上櫃電腦及週邊設備業)", "6579 研揚 (上市電腦及週邊設備業)", "3479 安勤 (上櫃電腦及週邊設備業)",
-#           "6414 樺漢 (上市電腦及週邊設備業)", "6570 維田 (上櫃電腦及週邊設備業)", "6245 立端 (上櫃通信網路業)", "3416 融通電 (上市電腦及週邊設備業)"]
+"""
+"OperatingIncome", "NetProfit", "EPS", "CommonStock", "NAV", "OperatingCashflow", "InvestingCashflow", "FinancingCashflow", "ROA",
+            "GrossMargin", "OperatingMargin", "NetIncomeMargin", "ROE", "DebtRatio", "LongTermLiabilitiesRatio", "CurrentRatio", "QuickRatio", "InterestCoverage", 
+            "AccountsReceivableTurnoverDay", "AccountsReceivableTurnover", "InventoryTurnover", "InventoryTurnoverDay", "TotalAssetTurnover",
+            "RevenueYOY", "GrossProfitYOY", "OperatingIncomeYOY", "NetProfitYOY", "EPSYOY", 
+            "OperatingCashflowToCurrentLiability", "OperatingCashflowToLiability", "OperatingCashflowToNetProfit"]
+"""            
+Company = ["6680 鑫創電子 (上櫃電腦及週邊設備業)", "8050 廣積 (上櫃電腦及週邊設備業)", "6922 宸曜 (上櫃電腦及週邊設備業)"]
+
+"""
+"3594 磐儀 (上櫃電腦及週邊設備業)", "2397 友通 (上市電腦及週邊設備業)",
+           "8234 新漢 (上櫃電腦及週邊設備業)",  "2395 研華 (上市電腦及週邊設備業)", "6166 凌華 (上市電腦及週邊設備業)", "3088 艾訊 (上櫃電腦及週邊設備業)", "6579 研揚 (上市電腦及週邊設備業)", "3479 安勤 (上櫃電腦及週邊設備業)",
+           "6414 樺漢 (上市電腦及週邊設備業)", "6570 維田 (上櫃電腦及週邊設備業)", "6245 立端 (上櫃通信網路業)", "3416 融通電 (上市電腦及週邊設備業)"]
+"""
 
 data = {
     "compareItem": Compare,
