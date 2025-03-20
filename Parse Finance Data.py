@@ -47,7 +47,7 @@ for i in range(2, 9):
             expanded = section.get_attribute("aria-expanded")
             if expanded == "false":
                 section.click()
-                time.sleep(2)  # Wait for it to expand
+                time.sleep(5)  # Wait for it to expand
 
         # Locate all buttons with the target class inside this section
         buttons = section.find_elements(By.CLASS_NAME, "compareItem")
@@ -57,7 +57,7 @@ for i in range(2, 9):
         for btn in buttons:
             button_name = btn.get_attribute("name")  # Get 'name' attribute
             driver.execute_script("arguments[0].click();", btn)
-            time.sleep(random.randint(5, 7))   # Wait for modal to load or response
+            time.sleep(random.randint(5, 8))   # Wait for modal to load or response
 
              # 嘗試尋找 "setting-pop" 面板
             try:
@@ -78,7 +78,7 @@ for i in range(2, 9):
                         company_inputs[i].send_keys(Company[i])
                     
                     company_inputs[i].send_keys(Keys.ENTER)  # 按下 Enter 以選擇公司
-                    time.sleep(4)  # 等待選擇生效
+                    time.sleep(5)  # 等待選擇生效
 
             except Exception as e:
                 print("Selection panel not found or not displayed, proceeding to table extraction...")
