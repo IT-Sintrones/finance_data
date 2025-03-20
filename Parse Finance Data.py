@@ -6,6 +6,7 @@ import time
 from webdriver_manager.chrome import ChromeDriverManager
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
+from selenium.common.exceptions import TimeoutException  # Import TimeoutException
 from selenium.webdriver.chrome.options import Options
 import requests
 from bs4 import BeautifulSoup
@@ -90,7 +91,7 @@ for i in range(2, 9):
 
             # Wait for up to 10 seconds for the table to become visible
             try:
-                table = WebDriverWait(driver, 15).until(
+                table = WebDriverWait(driver, 25).until(
                     EC.visibility_of_element_located(table_locator)  # You can also use EC.presence_of_element_located if visibility is not required
                 )
                 print("Table is now visible!")
