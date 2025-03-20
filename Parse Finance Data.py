@@ -47,7 +47,7 @@ for i in range(2, 9):
             expanded = section.get_attribute("aria-expanded")
             if expanded == "false":
                 section.click()
-                time.sleep(5)  # Wait for it to expand
+                time.sleep(3)  # Wait for it to expand
 
         # Locate all buttons with the target class inside this section
         buttons = section.find_elements(By.CLASS_NAME, "compareItem")
@@ -78,12 +78,22 @@ for i in range(2, 9):
                         company_inputs[i].send_keys(Company[i])
                     
                     company_inputs[i].send_keys(Keys.ENTER)  # 按下 Enter 以選擇公司
-                    time.sleep(5)  # 等待選擇生效
+                    time.sleep(3)  # 等待選擇生效
 
             except Exception as e:
                 print("Selection panel not found or not displayed, proceeding to table extraction...")
-                time.sleep(5)  # 等待選擇生效
 
+            # Replace 'table-id' with the actual ID or class of the table you're waiting for
+            table_locator = (By.ID, 'resultList1') 
+
+            # Wait for up to 10 seconds for the table to become visible
+            try:
+                table = WebDriverWait(driver, 15).until(
+                    EC.visibility_of_element_located(table_locator)  # You can also use EC.presence_of_element_located if visibility is not required
+                )
+                print("Table is now visible!")
+            except TimeoutException:
+                print("Timed out waiting for table to appear.")
 
             # Extract the page source from the driver
             soup = BeautifulSoup(driver.page_source, "html.parser")
