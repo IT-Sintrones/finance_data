@@ -6,22 +6,6 @@ import time
 
 url = "https://mopsfin.twse.com.tw"
 
-# Define the retry function
-def fetch_data_with_retry(url, data, retries=5, delay=5):
-    for attempt in range(retries):
-        try:
-            response = requests.post(url, data=data)
-            response.raise_for_status()  # Raise an HTTPError for bad responses
-            return response.json()  # Return the JSON response if successful
-        except requests.exceptions.RequestException as e:
-            print(f"Error fetching data: {e}")
-            if attempt < retries - 1:
-                print(f"Retrying in {delay} seconds... (Attempt {attempt + 2}/{retries})")
-                time.sleep(delay)  # Wait before retrying
-            else:
-                print(f"Failed to fetch data after {retries} attempts.")
-                return None  # Return None if failed after retries
-
 
 
 Compare = ["Revenue", "GrossProfit"]
@@ -59,12 +43,15 @@ for comp in Compare:
         data["compareItem"] = [comp]  # Ensure only one compare item per request
         data["displayCompanyId"] = [company]  # Ensure only one company per request
 
-        # Fetch data with retry logic
-        data_dict = fetch_data_with_retry(url, data)
-        
-        if not data_dict:
-            print(f"Skipping company {company} for comparison {comp} due to failure.")
-            continue  # Skip this iteration if data fetch fails
+        # Send POST request
+        response = requests.post(url, data=data)
+
+        if response.status_code == 200:
+            print(response.text)
+            data_dict = response.json()  # Convert to JSON directly
+        else:
+            print(f"Error {response.status_code}: {response.text}")
+            continue  # Skip this iteration if response is invalid
 
         # Ensure data is valid
         if data_dict:
