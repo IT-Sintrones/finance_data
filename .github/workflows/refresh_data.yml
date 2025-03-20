@@ -21,7 +21,7 @@ jobs:
         run: pip install requests pandas
 
       - name: Run Data Fetching Script
-        run: python "Parse Info from 財務e點通.py"  # script name
+        run: python "Parse Finance Data.py"  # script name
 
       - name: Commit and Push Changes
         run: |
