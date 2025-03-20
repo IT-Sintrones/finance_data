@@ -23,6 +23,7 @@ options = Options()
 options.add_argument("--headless")
 options.add_argument("--disable-gpu")  # Disable GPU for headless mode
 options.add_argument("--no-sandbox")   # Run without sandbox for CI environments
+options.add_argument("--disable-dev-shm-usage")  # Prevent limited shared memory errors
 
 
 # 自動安裝正確的 ChromeDriver 版本
@@ -60,7 +61,7 @@ for i in range(2, 4):
         for btn in buttons:
             button_name = btn.get_attribute("name")  # Get 'name' attribute
             driver.execute_script("arguments[0].click();", btn)
-            time.sleep(random.randint(5, 8))   # Wait for modal to load or response
+            time.sleep(random.randint(3, 6))   # Wait for modal to load or response
 
              # 嘗試尋找 "setting-pop" 面板
             try:
@@ -97,6 +98,8 @@ for i in range(2, 4):
                 print("Table is now visible!")
             except TimeoutException:
                 print("Timed out waiting for table to appear.")
+                # Log more info or take a screenshot
+                driver.save_screenshot("screenshot.png")
 
             # Extract the page source from the driver
             soup = BeautifulSoup(driver.page_source, "html.parser")
