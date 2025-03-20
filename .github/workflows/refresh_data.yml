@@ -18,7 +18,7 @@ jobs:
           python-version: "3.12"
 
       - name: Install Dependencies
-        run: pip install requests pandas
+        run: pip install requests pandas selenium bs4 webdriver-manager
 
       - name: Run Data Fetching Script
         run: python "Parse Finance Data.py"  # script name
