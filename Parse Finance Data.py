@@ -37,8 +37,8 @@ time.sleep(3)  # Allow the page to load
 # Dictionary to store results
 dataframes = {}
 
-# Loop over section IDs from a-2 to a-8
-for i in range(2, 9):
+# Loop over section IDs from a-2 to a-3
+for i in range(2, 4):
     section_id = f"a-{i}"
     
     try:
