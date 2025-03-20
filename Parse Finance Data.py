@@ -57,7 +57,7 @@ for i in range(2, 9):
         for btn in buttons:
             button_name = btn.get_attribute("name")  # Get 'name' attribute
             driver.execute_script("arguments[0].click();", btn)
-            time.sleep(random.randint(4, 6))   # Wait for modal to load or response
+            time.sleep(random.randint(5, 7))   # Wait for modal to load or response
 
              # 嘗試尋找 "setting-pop" 面板
             try:
