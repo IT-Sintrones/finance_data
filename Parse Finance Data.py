@@ -90,16 +90,20 @@ for i in range(2, 4):
             # Replace 'table-id' with the actual ID or class of the table you're waiting for
             table_locator = (By.ID, 'resultList1') 
 
-            # Wait for up to 10 seconds for the table to become visible
-            try:
-                table = WebDriverWait(driver, 25).until(
-                    EC.visibility_of_element_located(table_locator)  # You can also use EC.presence_of_element_located if visibility is not required
-                )
-                print("Table is now visible!")
-            except TimeoutException:
-                print("Timed out waiting for table to appear.")
-                # Log more info or take a screenshot
-                driver.save_screenshot("screenshot.png")
+            # Wait for up to 20 seconds for the table to become visible
+            retries = 3
+            for attempt in range(retries):
+                try:
+                    table = WebDriverWait(driver, 20).until(
+                        EC.visibility_of_element_located(table_locator)
+                    )
+                    break  # If successful, exit the loop
+                except TimeoutException:
+                    if attempt < retries - 1:
+                        print(f"Retrying ({attempt+1}/{retries})...")
+                        time.sleep(2 ** attempt)  # Exponential backoff: wait longer each retry
+                    else:
+                        print("Failed after several retries.")
 
             # Extract the page source from the driver
             soup = BeautifulSoup(driver.page_source, "html.parser")
