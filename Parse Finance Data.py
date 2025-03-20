@@ -38,8 +38,8 @@ time.sleep(3)  # Allow the page to load
 # Dictionary to store results
 dataframes = {}
 
-# Loop over section IDs from a-2 to a-3
-for i in range(2, 4):
+# Loop over section IDs from a-2 to a-8
+for i in range(2, 9):
     section_id = f"a-{i}"
     
     try:
@@ -97,6 +97,7 @@ for i in range(2, 4):
                     table = WebDriverWait(driver, 20).until(
                         EC.visibility_of_element_located(table_locator)
                     )
+                    print("Table Shows Successfully!")
                     break  # If successful, exit the loop
                 except TimeoutException:
                     if attempt < retries - 1:
@@ -178,7 +179,7 @@ if not os.path.exists(directory):
     os.makedirs(directory)
 
 # Define the file path to store the CSV
-file_name = os.path.join(directory, "all_comparison_data_1.csv")
+file_name = os.path.join(directory, "all_comparison_data.csv")
 
 # Save the DataFrame as a CSV
 final_df.to_csv(file_name, index=False)
