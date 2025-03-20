@@ -7,7 +7,7 @@ import time
 url = "https://mopsfin.twse.com.tw"
 
 # Define the retry function
-def fetch_data_with_retry(url, data, retries=5, delay=10):
+def fetch_data_with_retry(url, data, retries=5, delay=5):
     for attempt in range(retries):
         try:
             response = requests.post(url, data=data)
