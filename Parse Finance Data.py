@@ -14,11 +14,16 @@ Company = ["6680 鑫創電子 (上櫃電腦及週邊設備業)", "8050 廣積 (�
            "8234 新漢 (上櫃電腦及週邊設備業)",  "2395 研華 (上市電腦及週邊設備業)", "6166 凌華 (上市電腦及週邊設備業)", "3088 艾訊 (上櫃電腦及週邊設備業)", "6579 研揚 (上市電腦及週邊設備業)", "3479 安勤 (上櫃電腦及週邊設備業)",
            "6414 樺漢 (上市電腦及週邊設備業)", "6570 維田 (上櫃電腦及週邊設備業)", "6245 立端 (上櫃通信網路業)", "3416 融通電 (上市電腦及週邊設備業)"]
 
+# Set up headless Chrome options
+options = Options()
+options.add_argument("--headless")
+options.add_argument("--disable-gpu")  # Disable GPU for headless mode
+options.add_argument("--no-sandbox")   # Run without sandbox for CI environments
 
 
 # 自動安裝正確的 ChromeDriver 版本
 service = Service(ChromeDriverManager().install())
-driver = webdriver.Chrome(service=service)
+driver = webdriver.Chrome(service=service, options=options)
 
 # Open the website
 url = "https://mopsfin.twse.com.tw/"
