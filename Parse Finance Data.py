@@ -8,6 +8,7 @@ import requests
 from bs4 import BeautifulSoup
 import pandas as pd
 import random
+import os
 
 Company = ["6680 鑫創電子 (上櫃電腦及週邊設備業)", "8050 廣積 (上櫃電腦及週邊設備業)", "6922 宸曜 (上櫃電腦及週邊設備業)","3594 磐儀 (上櫃電腦及週邊設備業)", "2397 友通 (上市電腦及週邊設備業)",
            "8234 新漢 (上櫃電腦及週邊設備業)",  "2395 研華 (上市電腦及週邊設備業)", "6166 凌華 (上市電腦及週邊設備業)", "3088 艾訊 (上櫃電腦及週邊設備業)", "6579 研揚 (上市電腦及週邊設備業)", "3479 安勤 (上櫃電腦及週邊設備業)",
@@ -144,3 +145,14 @@ for i in range(2, 9):
 
 # Close the driver after execution
 driver.quit()
+
+# Ensure the 'finance_data' directory exists
+directory = "finance_data"
+if not os.path.exists(directory):
+    os.makedirs(directory)
+
+# Define the file path to store the CSV
+file_name = os.path.join(directory, "all_comparison_data.csv")
+
+# Save the DataFrame as a CSV
+final_df.to_csv(file_name, index=False)
