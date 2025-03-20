@@ -82,6 +82,7 @@ for i in range(2, 9):
 
             except Exception as e:
                 print("Selection panel not found or not displayed, proceeding to table extraction...")
+                time.sleep(5)  # 等待選擇生效
 
 
             # Extract the page source from the driver
@@ -144,7 +145,6 @@ for i in range(2, 9):
 
                 # Concatenate all DataFrames
             final_df = pd.concat(df_list, ignore_index=True)
-            final_df.head(10)
 
     except Exception as e:
         print(f"Error processing {section_id}: {e}")
