@@ -181,5 +181,20 @@ if not os.path.exists(directory):
 # Define the file path to store the CSV
 file_name = os.path.join(directory, "all_comparison_data.csv")
 
-# Save the DataFrame as a CSV
-final_df.to_csv(file_name, index=False)
+# Check if the file already exists
+if os.path.exists(file_name):
+    # Read existing data
+    existing_df = pd.read_csv(file_name)
+    
+    # Find new rows that are not in existing_df
+    combined_df = pd.concat([existing_df, final_df], ignore_index=True)
+    
+    # Drop duplicate rows based on specific columns (adjust columns as needed)
+    combined_df = combined_df.drop_duplicates(subset=["公司", "Category"], keep="last")
+else:
+    # If file doesn't exist, use final_df as the initial dataset
+    combined_df = final_df
+
+# Save the updated DataFrame as a CSV
+combined_df.to_csv(file_name, index=False)
+print(f"Data updated successfully in {file_name}")
