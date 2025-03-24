@@ -2,7 +2,7 @@ name: Refresh Data
 
 on:
   schedule:
-    - cron: "30 3 * * *"  # Runs daily at 3:30 AM UTC (11:30 AM Taiwan time)
+    - cron: "30 15 * * *"  # Runs daily at 15:30 PM UTC (11:30 PM Taiwan time)
   workflow_dispatch:  # Allows manual trigger
 
 jobs:
