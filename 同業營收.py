@@ -16,7 +16,7 @@ for cat in category:  # Loop through "sii" and "otc"
             url = f"https://mopsov.twse.com.tw/nas/t21/{cat}/t21sc03_{x}_{month}.csv"
 
             # Check if the URL is accessible
-            response = requests.get(url)
+            response = requests.get(url, verify=False)
             if response.status_code != 200:
                 print(f"URL not found: {url}, skipping.")
                 continue  # Skip to the next URL if the URL is not found
