@@ -1,4 +1,4 @@
-name: Refresh Data 2
+name: Refresh Peer Revenue Data
 
 on:
   schedule:
