@@ -1,54 +1,58 @@
 import pandas as pd
 import requests
 import os
+from requests.adapters import HTTPAdapter
+from urllib3.util.retry import Retry
+from io import StringIO  # <- use this instead of pandas.compat.StringIO
 
-# 上市 & 上櫃
+# Set up a retry strategy
+retry_strategy = Retry(
+    total=5,
+    status_forcelist=[429, 500, 502, 503, 504],
+    allowed_methods=["HEAD", "GET", "OPTIONS"],
+    backoff_factor=1,
+    raise_on_status=False
+)
+
+# Create a session with the retry strategy
+adapter = HTTPAdapter(max_retries=retry_strategy)
+http = requests.Session()
+http.mount("https://", adapter)
+http.mount("http://", adapter)
+
 category = ["sii", "otc"]
-
-# Initialize an empty dataframe to store the combined data
 combined_df = pd.DataFrame()
 
-# Loop over the category list, year range and months 1-12
-for cat in category:  # Loop through "sii" and "otc"
-    for x in range(110, 115):  
-        for month in range(1, 13):  # month ranges from 1 to 12
-            # Construct the URL
+for cat in category:
+    for x in range(110, 115):
+        for month in range(1, 13):
             url = f"https://mopsov.twse.com.tw/nas/t21/{cat}/t21sc03_{x}_{month}.csv"
 
-            # Check if the URL is accessible
-            response = requests.get(url)
-            if response.status_code != 200:
-                print(f"URL not found: {url}, skipping.")
-                continue  # Skip to the next URL if the URL is not found
-            
             try:
-                # Fetch the CSV from the URL
-                data = pd.read_csv(url)
+                response = http.get(url, timeout=10)
+                if response.status_code != 200:
+                    print(f"URL not found: {url}, skipping.")
+                    continue
                 
-                # Check if the dataframe has zero entries
+                # Use io.StringIO here
+                data = pd.read_csv(StringIO(response.text))
                 if data.empty:
                     print(f"No data found in {url}, skipping.")
-                    continue  # Skip to the next URL if the data is empty
+                    continue
 
-                # Add a new column based on the category
                 data['Category'] = "上市" if cat == "sii" else "上櫃"
-
-                # Append the data to the combined dataframe
                 combined_df = pd.concat([combined_df, data], ignore_index=True)
                 print(f"Successfully loaded data from {url}")
 
             except pd.errors.EmptyDataError:
                 print(f"No data in {url}, skipping.")
+            except requests.exceptions.RequestException as e:
+                print(f"Request failed for {url}: {e}, skipping.")
 
-# Ensure the 'finance_data' directory exists
+# Save result
 directory = "finance_data"
-if not os.path.exists(directory):
-    os.makedirs(directory)
+os.makedirs(directory, exist_ok=True)
 
-# Define the file path to store the CSV
 file_name = os.path.join(directory, "同業營收.csv")
-
-
-# Save the updated DataFrame as a CSV
 combined_df.to_csv(file_name, index=False)
 print(f"Data updated successfully in {file_name}")
