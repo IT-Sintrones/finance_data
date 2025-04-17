@@ -1,4 +1,4 @@
-name: Refresh Data Other Companies
+name: Refresh Data Selected Companies 2
 
 on:
   schedule:
@@ -29,8 +29,8 @@ jobs:
           git config --global user.email "action@github.com"
           git add .
           if git diff --cached --quiet; then
-          echo "No changes to commit"
+            echo "No changes to commit"
           else
-          git commit -m "Auto-Update data"
+            git commit -m "Auto-Update data"
           git push
           fi
