@@ -1,9 +1,10 @@
+from io import BytesIO
 import pandas as pd
 import requests
 import os
 from requests.adapters import HTTPAdapter
 from urllib3.util.retry import Retry
-from io import StringIO  # <- use this instead of pandas.compat.StringIO
+import chardet
 
 # Set up a retry strategy
 retry_strategy = Retry(
@@ -33,9 +34,11 @@ for cat in category:
                 if response.status_code != 200:
                     print(f"URL not found: {url}, skipping.")
                     continue
-                
-                # Use io.StringIO here
-                data = pd.read_csv(StringIO(response.text))
+
+                # Use BytesIO + Big5 encoding for Chinese
+                encoding = chardet.detect(response.content)['encoding']
+                data = pd.read_csv(BytesIO(response.content), encoding=encoding or 'utf-8')
+
                 if data.empty:
                     print(f"No data found in {url}, skipping.")
                     continue
