@@ -28,5 +28,10 @@ jobs:
           git config --global user.name "GitHub Action"
           git config --global user.email "action@github.com"
           git add .
-          git commit -m "Auto-update financial data"
-          git push
+          if git diff --cached --quiet; then
+            echo "No changes to commit"
+          else
+            git commit -m "Auto-update Revenue data"
+            git pull --rebase origin main
+            git push
+          fi
