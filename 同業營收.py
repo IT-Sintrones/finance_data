@@ -5,6 +5,10 @@ import os
 from requests.adapters import HTTPAdapter
 from urllib3.util.retry import Retry
 import chardet
+from datetime import datetime
+
+current_year = datetime.now().year
+current_year_tw = current_year - 1911
 
 # Set up a retry strategy
 retry_strategy = Retry(
@@ -26,7 +30,7 @@ category = ["sii", "otc"]
 combined_df = pd.DataFrame()
 
 for cat in category:
-    for x in range(110, 115):
+    for x in range(110, current_year_tw+1):
         for month in range(1, 13):
             url = f"https://mopsov.twse.com.tw/nas/t21/{cat}/t21sc03_{x}_{month}.csv"
 
